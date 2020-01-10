@@ -1,0 +1,21 @@
+{
+    "A": ["Anglia", "Peterborough, Norwich, Ipswich"],
+    "B": ["Birmingham", "Birmingham"],
+    "C": ["Cymru", "Cardiff, Swansea, Bangor"],
+    "D": ["Deeside to Shrewsbury", "Chester, Shrewsbury"],
+    "E": ["Essex", "Chelmsford"],
+    "F": ["Forest & Fens", "Nottingham, Lincoln"],
+    "G": ["Garden of England", "Maidstone, Brighton"],
+    "H": ["Hampshire & Dorset", "Bournemouth, Portsmouth"],
+    "K": ["", "Borehamwood, Northampton"],
+    "L": ["London", "Birmingham"],
+    "M": ["Manchester & Merseyside", "Manchester"],
+    "N": ["North", "Newcastle, Stockton"],
+    "O": ["Oxford", "Oxford"],
+    "P": ["Preston", "Preston, Carlisle"],
+    "R": ["Reading", "Theale"],
+    "S": ["Scotland", "Glasgow, Edinburgh, Dundee, Aberdeen, Inverness"],
+    "V": ["Severn Valley", "Worcester"],
+    "W": ["West of England", "Exeter, Truro, Bristol"],
+    "Y": ["Yorkshire", "Leeds, Sheffield, Beverley"]
+}
