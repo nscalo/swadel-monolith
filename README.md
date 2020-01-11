@@ -12,23 +12,24 @@ the projects are grouped into many domains.
 
 ## Group1: S W A D E L
 
-S:      Automatic Image Stitching
-W:      Wind Data Measurement
-A:      And
-D:      Dashcam Data
-E:      Time series on Entropy
-L:      LIDAR data with GIS
+S:      Automatic Image **S**titching
+W:      **W**ind Data Measurement
+A:      **A**nd
+D:      **D**ashcam Data
+E:      Time series on **E**ntropy
+L:      **L**IDAR data with GIS
 
-## Group2: M C H P Q W
+## Group2: M A C H P Q W
 
 <!--
-M:      Markov Chain Monte Carlo
-C:      Image Colorization
-H:      HDF5 Data Collection    
+M:      **M**arkov Chain Monte Carlo
+A:      **A**zure IoT Edge and IoT Hub
+C:      Image **C**olorization
+H:      **H**DF5 Data Collection    
 -->
 
 <!--
-P:      People Counter App
-Q:      A DQN Model for OpenVINO
-W:      World Transit Game
+P:      **P**eople Counter App
+Q:      A D**Q**N Model for OpenVINO
+W:      **W**orld Transit Game
 -->
