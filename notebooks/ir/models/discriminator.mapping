@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<mapping>
+	<map>
+		<framework name="9" out_port_id="9"/>
+		<IR id="1" name="9" out_port_id="3"/>
+	</map>
+	<map>
+		<framework name="11" out_port_id="11"/>
+		<IR id="3" name="11" out_port_id="3"/>
+	</map>
+	<map>
+		<framework name="10" out_port_id="10"/>
+		<IR id="2" name="10" out_port_id="1"/>
+	</map>
+	<map>
+		<framework name="input.1" out_port_id="input.1"/>
+		<IR id="0" name="input.1" out_port_id="0"/>
+	</map>
+	<map>
+		<framework name="15" out_port_id="15"/>
+		<IR id="7" name="15" out_port_id="3"/>
+	</map>
+	<map>
+		<framework name="14" out_port_id="14"/>
+		<IR id="6" name="14" out_port_id="1"/>
+	</map>
+	<map>
+		<framework name="13" out_port_id="13"/>
+		<IR id="5" name="13" out_port_id="3"/>
+	</map>
+	<map>
+		<framework name="16" out_port_id="0"/>
+		<IR id="8" name="16" out_port_id="1"/>
+	</map>
+	<map>
+		<framework name="12" out_port_id="12"/>
+		<IR id="4" name="12" out_port_id="1"/>
+	</map>
+</mapping>

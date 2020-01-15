@@ -19,7 +19,7 @@ D:      **D**ashcam Data
 E:      Time series on **E**ntropy
 L:      **L**IDAR data with GIS
 
-## Group2: M A C H P Q W
+## Group2: M A C H
 
 <!--
 M:      **M**arkov Chain Monte Carlo
@@ -28,8 +28,14 @@ C:      Image **C**olorization
 H:      **H**DF5 Data Collection    
 -->
 
+## Group3: P I E O F Q W
+
 <!--
 P:      **P**eople Counter App
+I:      **I**ntel MKL Library
+E:      An **E**mscripten transpiled JS interacting with GIS map
+O:      An **O**penCL script to interact with GIS map
+F:      A Per**F**ormance comparison technique
 Q:      A D**Q**N Model for OpenVINO
 W:      **W**orld Transit Game
 -->
