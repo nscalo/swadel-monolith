@@ -12,12 +12,12 @@ the projects are grouped into many domains.
 
 ## Group1: S W A D E L
 
-S:      Automatic Image **S**titching
+<!-- S:      Automatic Image **S**titching
 W:      **W**ind Data Measurement
 A:      **A**nd
 D:      **D**ashcam Data
 E:      Time series on **E**ntropy
-L:      **L**IDAR data with GIS
+L:      **L**IDAR data with GIS -->
 
 ## Group2: M A C H
 
