@@ -1,0 +1,12 @@
+{
+    "name": "sample_mscoco/annottaions_xml",
+    "authors": [
+        {
+            "name": "Aswin Vijayakumar",
+            "email": "aswinkvj@gmail.com"
+        }
+    ],
+    "require": {
+        "egeloen/serializer": "^1.0"
+    }
+}
