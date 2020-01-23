@@ -1,5 +1,6 @@
 import time, os, sys, socket, math, atexit
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
+import raspberry.testGPIO as GPIO
 from gpiozero import MCP3008
 import time
 try:
@@ -22,10 +23,12 @@ class interrupt_watcher(object):
         self.running = True
         self.interrupt_peak_count = 0
         self.interrupt_peak_max = 0
-        
+
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(sensorPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        GPIO.add_event_detect(sensorPin, GPIO.FALLING, callback=self.interrupt_call_back, bouncetime=bounceTime)
+        # GPIO.add_event_detect(sensorPin, GPIO.FALLING, callback=self.interrupt_call_back, bouncetime=bounceTime)
+        self.interrupt_call_back(1)
+        self.interrupt_call_back(1)
         
         if peak_monitor:
             thread.start_new_thread(self.peak_monitor, (peak_sample,))
@@ -116,7 +119,7 @@ class interrupt_daemon(object):
 
     def __init__(self, port):
         self.running = False
-        self.port = port
+        self.port = int(port)
         self.socket_data = "{0}\n"
         
     def setup(self):
@@ -127,11 +130,12 @@ class interrupt_daemon(object):
             self.skt.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.skt.bind((HOST_IP, self.port))
             self.running = True
-        except socket.error as e:
-            print(e)
-            raise
+        except Exception as e:
+            raise e
+            exit()
         
         self.skt.listen(10)
+        print("Socket listening at ", HOST_IP, " at port : ", self.port)
         
     def send(self, conn, s):
         conn.sendall(self.socket_data.format(s).encode('utf-8'))
@@ -149,9 +153,9 @@ class interrupt_daemon(object):
             if len(data) > 0:
                 data = data.strip()
                 if data == "WIND":                    
-                    self.send(conn, self.wind.get_wind_speed())
+                    self.send(conn, str(self.wind.get_wind_speed()))
                 elif data == "GUST":
-                    self.send(conn, self.wind.get_wind_gust_speed())
+                    self.send(conn, str(self.wind.get_wind_gust_speed()))
                 elif data == "RESET":
                     self.reset_counts()
                     self.send(conn, "OK")
@@ -196,18 +200,18 @@ class interrupt_daemon(object):
         sys.stdout.flush()
         sys.stderr.flush()
         
-    def start(self):
+    def start(self, devices=1):
         try:
             self.daemon_pid = None
             self.daemonize()
             self.daemon_pid = os.getpid()
             print("PID: %d" % self.daemon_pid)
             self.setup()
-            while self.running:
+            while self.running and devices == 1:
                 conn, addr =  self.skt.accept() #blocking call
-                if self.running:
-                    thread.start_new_thread(self.handle_connection, (conn,))
-        except Exception:
+                self.handle_connection(conn)
+        except Exception as e:
+            raise e
             if self.running:
                 self.stop()
         finally:
