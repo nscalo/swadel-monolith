@@ -26,9 +26,7 @@ class interrupt_watcher(object):
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(sensorPin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
-        # GPIO.add_event_detect(sensorPin, GPIO.FALLING, callback=self.interrupt_call_back, bouncetime=bounceTime)
-        self.interrupt_call_back(1)
-        self.interrupt_call_back(1)
+        GPIO.add_event_detect(sensorPin, GPIO.FALLING, callback=self.interrupt_call_back, bouncetime=bounceTime)
         
         if peak_monitor:
             thread.start_new_thread(self.peak_monitor, (peak_sample,))
