@@ -6,6 +6,8 @@
 #include "Python.h"  // NOLINT(build/include_alpha)
 #include "object.h"
 #include "Repository/Python-3.6.1/Include/unicodeobject.h"
+#include "pycapsule.h"
+#include "capsulethunk.h"
 // #include "cxxabi.h"
 
 #include <boost/python.hpp>
@@ -313,7 +315,7 @@ class World
   BOOST_PYTHON_MODULE(libmain) {
 
     Py_Initialize();
-    np::initialize();
+    // np::initialize();
 
     // using namespace boost::python;
 

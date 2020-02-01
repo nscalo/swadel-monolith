@@ -1,68 +1,121 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <vector>
 #include "alpr.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/videoio/videoio_c.h>
 #include <opencv2/imgproc/imgproc_c.h>
 
-class ObjDetectALPR {
+using namespace alpr;
+
+class ALPRImageDetect {
+
+private:
+    cv::Mat image;
+    std::string configFileName;
+    std::string country;
+    std::string region;
+    alpr::Alpr* instance;
+    alpr::AlprResults results;
+
+    struct LicensePlate {
+        std::string plateText;
+        float confidence;
+        bool match;
+    };
 
 public:
-    ObjDetectALPR(cv::Mat m_imgBGR) {
 
+    const std::string extension = "jpg";
+    static const float OVERALL_CONFIDENCE = 0.5f;
+
+    ALPRImageDetect(cv::Mat i_image, std::string i_config, std::string i_country, std::string i_region)
+    {
+        image = i_image;
+        configFileName = i_config;
+        country = i_country;
+        region = i_region;
+
+        setInstance();
     }
 
-
-
-
-protected:
-    std::string       m_windowName;
-    cv::VideoCapture  m_cap;
-    cv::Mat           m_imgBGR;
-    cv::Mat           m_imgRGB;
-
-}
-
-int main( int argc, const char * argv[] ) {
-
-    // Initialize the library using United States style license plates.
-    // You can use other countries/regions as well (for example: "eu", "au", or "kr")
-    alpr::Alpr openalpr("us", "gb.conf");
-
-    // Optionally specify the top N possible plates to return (with confidences).  Default is 10
-    openalpr.setTopN(20);
-
-    // Optionally, provide the library with a region for pattern matching.  This improves accuracy by
-    // comparing the plate text with the regional pattern.
-    openalpr.setDefaultRegion("md");
-
-    // Make sure the library loaded before continuing.
-    // For example, it could fail if the config/runtime_data is not found
-    if (openalpr.isLoaded() == false)
+    ALPRImageDetect(cv::Mat i_image, std::string i_config, std::string i_country)
     {
-        std::cerr << "Error loading OpenALPR" << std::endl;
-        return 1;
+        image = i_image;
+        configFileName = i_config;
+        country = i_country;
+
+        setInstance();
     }
 
-    // Recognize an image file.  You could alternatively provide the image bytes in-memory.
-    alpr::AlprResults results = openalpr.recognize("car_image.jpg");
+    ~ALPRImageDetect() {}
 
-    // Iterate through the results.  There may be multiple plates in an image,
-    // and each plate return sthe top N candidates.
-    for (int i = 0; i < results.plates.size(); i++)
+    void setInstance()
     {
-        alpr::AlprPlateResult plate = results.plates[i];
-        std::cout << "plate" << i << ": " << plate.topNPlates.size() << " results" << std::endl;
+        alpr::Alpr* instance = new alpr::Alpr(country, configFileName);
+    }
 
-        for (int k = 0; k < plate.topNPlates.size(); k++)
-        {
-        alpr::AlprPlate candidate = plate.topNPlates[k];
-        std::cout << "    - " << candidate.characters << "\t confidence: " << candidate.overall_confidence;
-        std::cout << "\t pattern_match: " << candidate.matches_template << std::endl;
+    static std::vector<alpr::AlprRegionOfInterest> constructRegionsOfInterest(std::vector<std::tuple<int, int, int, int>> regionsOfInterest)
+    {
+        int x, y, width, height;
+        std::vector<AlprRegionOfInterest> regions(regionsOfInterest.size());
+        for(int i = 0; i < regionsOfInterest.size(); i++) {
+            std::tie(x, y, width, height) = regionsOfInterest[i];
+            AlprRegionOfInterest regionOfInterest(x, y, width, height);
+            regions[i] = regionOfInterest;
         }
+        return regions;
     }
 
-    return 0;
-}
+    static std::vector<LicensePlate> processPlates(AlprResults results, float overall_confidence = ALPRImageDetect::OVERALL_CONFIDENCE, bool matches_template = false)
+    {
+        std::vector<LicensePlate> licensePlates;
+        for (int i = 0; i < results.plates.size(); i++)
+        {
+            AlprPlateResult plate = results.plates[i];
+            for (int j = 0; j < plate.topNPlates.size(); j++)
+            {
+                AlprPlate candidate = plate.topNPlates[j];
+                bool match = true ? (matches_template == false) : (candidate.matches_template == matches_template);
+                if(candidate.overall_confidence > overall_confidence && match) {
+                    licensePlates.push_back(LicensePlate{candidate.characters, candidate.overall_confidence, candidate.matches_template});
+                }
+            }
+        }
 
+        return licensePlates;
+    }
+
+    AlprResults detectAutonomousLicensePlate(int topN, std::vector<std::tuple<int, int, int, int>> regionsOfInterest)
+    {
+        instance->setTopN(topN);
+        cv::Size size = image.size();
+        void* buffer = malloc(size.width*size.height);
+        std::vector<uchar>* buf = reinterpret_cast<std::vector<uchar>*>(buffer);
+        cv::imencode(this->extension, image, *buf, {cv::IMWRITE_JPEG_OPTIMIZE});
+        std::vector<AlprRegionOfInterest> RegionsOfInterest = ALPRImageDetect::constructRegionsOfInterest(regionsOfInterest);
+        std::vector<char>* charbuf = reinterpret_cast<std::vector<char>*>(buf);
+        AlprResults results = instance->recognize(*charbuf, RegionsOfInterest);
+        return results;
+    }
+
+    std::vector<LicensePlate> detectLicensePlateFromRegion(int topN, std::string region, std::vector<std::tuple<int, int, int, int>> regionsOfInterest)
+    {
+        instance->setTopN(topN);
+        instance->setDefaultRegion(region);
+        cv::Size size = image.size();
+        std::vector<AlprRegionOfInterest> RegionsOfInterest = ALPRImageDetect::constructRegionsOfInterest(regionsOfInterest);
+        AlprResults results = instance->recognize(image.data, CV_8S, size.width, size.height, RegionsOfInterest);
+
+        return ALPRImageDetect::processPlates(results);
+    }
+
+    std::vector<LicensePlate> detectLicensePlateMatches(int topN, std::vector<std::tuple<int, int, int, int>> regionsOfInterest)
+    {
+        AlprResults results = detectAutonomousLicensePlate(topN, regionsOfInterest);
+
+        return ALPRImageDetect::processPlates(results, 0.5f, true);
+    }
+
+};

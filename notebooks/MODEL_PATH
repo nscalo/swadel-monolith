@@ -1,0 +1,3 @@
+--2020-02-01 13:14:40--  http://depth_model_src/
+Resolving depth_model_src (depth_model_src)... failed: Name or service not known.
+wget: unable to resolve host address ‘depth_model_src’
