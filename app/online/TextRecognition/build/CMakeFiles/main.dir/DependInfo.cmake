@@ -10,12 +10,14 @@ set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/tbb/include"
+  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/boost_1_65_1"
+  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/numpy/numpy/core/include"
   "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/opencv/include"
   "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Work/EdgeApp/License_Plate_Recognition/SOLID-Project-Framework/app/include"
-  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/numpy/numpy/core/include"
-  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/Python-3.6.1/Include"
   "/home/aswin/Documents/Courses/Udacity/Intel-Edge"
-  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/tbb/include"
+  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/Python-3.6.1/Doc/includes"
+  "/home/aswin/Documents/Courses/Udacity/Intel-Edge/Repository/Python-3.6.1/Include"
   )
 
 # Targets to which this target links.

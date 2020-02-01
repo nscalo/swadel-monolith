@@ -69,5 +69,5 @@ endif()
 
 
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "gcc;gcc_s;c;gcc;gcc_s")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "/opt/intel/compilers_and_libraries_2020.0.166/linux/mpi/intel64/libfabric/lib;/usr/lib/gcc/x86_64-linux-gnu/7;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib;/opt/intel/compilers_and_libraries_2020.0.166/linux/compiler/lib/intel64_lin;/opt/intel/compilers_and_libraries_2020.0.166/linux/mkl/lib/intel64_lin;/opt/intel/compilers_and_libraries_2020.0.166/linux/ipp/lib/intel64;/opt/intel/compilers_and_libraries_2020.0.166/linux/tbb/lib/intel64/gcc4.8;/opt/intel/compilers_and_libraries_2020.0.166/linux/daal/lib/intel64_lin;/opt/intel/compilers_and_libraries_2020.0.166/linux/tbb/lib/intel64_lin/gcc4.8")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "/opt/intel/compilers_and_libraries_2020.0.166/linux/mpi/intel64/libfabric/lib;/usr/lib/gcc/x86_64-linux-gnu/7;/usr/lib/x86_64-linux-gnu;/usr/lib;/lib/x86_64-linux-gnu;/lib;/opt/intel/compilers_and_libraries_2020.0.166/linux/compiler/lib/intel64_lin;/opt/intel/compilers_and_libraries_2020.0.166/linux/mkl/lib/intel64_lin;/opt/intel/compilers_and_libraries_2020.0.166/linux/ipp/lib/intel64;/opt/intel/compilers_and_libraries_2020.0.166/linux/tbb/lib/intel64/gcc4.8;/opt/intel/compilers_and_libraries_2020.0.166/linux/daal/lib/intel64_lin")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")
